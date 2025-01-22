@@ -8,13 +8,8 @@ interface AsideProps {
   selectedCity: { name: string; country: string } | null;
 }
 
-function Aside({ weatherData, loading }: AsideProps) {
-  return (
-    <div className="bg-green-500 h-full">
-      Aside
-      {JSON.stringify({ weatherData, loading })}
-    </div>
-  );
+function Aside({}: AsideProps) {
+  return <div className="bg-green-500 h-full">Aside</div>;
 }
 
 export default Aside;

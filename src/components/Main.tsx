@@ -1,14 +1,21 @@
+import type { SearchResponse, WeatherData } from "@/types";
+
 import React from "react";
-import SearchForm from "./SearchForm";
-import type { WeatherData } from "@/types";
-import { useCitySearch } from "@/hooks/useCitySearch";
-import { useWeather } from "@/hooks/useWeather";
+import SearchForm from "@/components/SearchForm";
 
 interface MainProps {
   weatherData: WeatherData | null;
   loading: boolean;
   selectedCity: { name: string; country: string } | null;
-  onCitySelect: (city: { name: string; country: string } | null) => void;
+  onCitySelect: (
+    lat: number,
+    lon: number,
+    cityName: string,
+    countryCode: string
+  ) => void;
+  onSearch: (query: string) => void;
+  results: SearchResponse | null;
+  searchLoading: boolean;
 }
 
 function Main({
@@ -16,29 +23,15 @@ function Main({
   loading: parentLoading,
   selectedCity,
   onCitySelect,
+  onSearch,
+  searchLoading,
+  results,
 }: MainProps) {
-  const { loading: searchLoading, results, searchCities } = useCitySearch();
-  const { fetchWeather } = useWeather();
-
-  const handleSearch = (query: string) => {
-    searchCities(query);
-  };
-
-  const handleCitySelect = (
-    lat: number,
-    lon: number,
-    cityName: string,
-    countryCode: string
-  ) => {
-    onCitySelect({ name: cityName, country: countryCode });
-    fetchWeather(lat, lon);
-  };
-
   return (
     <div className="bg-green-500 h-full p-4">
       <SearchForm
-        onSearch={handleSearch}
-        onCitySelect={handleCitySelect}
+        onSearch={onSearch}
+        onCitySelect={onCitySelect}
         results={results}
         loading={searchLoading}
       />

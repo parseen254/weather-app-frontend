@@ -33,16 +33,16 @@ export default function SearchForm({ onSearch, onCitySelect, results, loading }:
 
   return (
     <div className="relative w-full max-w-md">
-      <div className="join w-full">
+      <div className="join w-full flex items-center gap-4">
         <input
           type="text"
           placeholder="Search for a city..."
-          className="input join-item w-full"
+          className="input join-item w-full rounded-none"
           value={searchTerm}
           onChange={handleInputChange}
         />
         <button
-          className="btn join-item btn-primary"
+          className="btn join-item btn-primary-outline rounded-none"
           disabled={loading || !searchTerm}
           onClick={() =>
             results?.data[0] &&
@@ -64,12 +64,14 @@ export default function SearchForm({ onSearch, onCitySelect, results, loading }:
             <button
               key={`${result.city.lat}-${result.city.lon}`}
               className="block w-full px-4 py-2 text-left hover:bg-base-200"
-              onClick={() => handleCitySelect(
-                result.city.lat,
-                result.city.lon,
-                result.city.name,
-                result.city.country
-              )}
+              onClick={() =>
+                handleCitySelect(
+                  result.city.lat,
+                  result.city.lon,
+                  result.city.name,
+                  result.city.country
+                )
+              }
             >
               {result.city.name}, {result.city.country}
             </button>
