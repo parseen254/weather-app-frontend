@@ -12,7 +12,7 @@ export function useWeather() {
       setLoading(true);
       setError(null);
       const response = await fetch(
-        `${process.env.NEXT_BACKEND_API_URL}/api/weather?lat=${lat}&lon=${lon}`
+        `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/weather?lat=${lat}&lon=${lon}`
       );
       
       if (!response.ok) throw new Error('Failed to fetch weather data');

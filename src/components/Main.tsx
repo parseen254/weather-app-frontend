@@ -1,7 +1,19 @@
 import React from "react";
+import type { WeatherData } from "@/types";
 
-function Main() {
-  return <div className="h-full bg-red-500">Main</div>;
+interface MainProps {
+  weatherData: WeatherData | null;
+
+  loading: boolean;
+}
+
+function Main({ weatherData, loading }: MainProps) {
+  return (
+    <div className="bg-green-500 h-full">
+      Aside
+      {JSON.stringify({ weatherData, loading })}
+    </div>
+  );
 }
 
 export default Main;
