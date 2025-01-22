@@ -47,7 +47,7 @@ export default function Home() {
   };
 
   return (
-    <div className="grid grid-rows-[auto_1fr_auto] md:grid-cols-4 md:grid-rows-none items-center min-h-screen p-0 gap-4 md:p-2 md:gap-8 font-[family-name:var(--font-geist-sans)] bg-blue-500">
+    <div className="grid grid-rows-[auto_1fr_auto] md:grid-cols-4 md:grid-rows-none items-center min-h-screen p-0 gap-4 md:p-2 md:gap-8 font-[family-name:var(--font-geist-sans)]">
       <div className="w-full h-full md:col-span-1">
         <Aside
           weatherData={weatherData}

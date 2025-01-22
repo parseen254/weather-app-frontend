@@ -24,8 +24,6 @@ export interface SearchResponse {
 }
 
 export interface WeatherData {
-  // Define your weather response type based on the actual API response
-  // This is a basic example
   current: {
     temp: number;
     humidity: number;
