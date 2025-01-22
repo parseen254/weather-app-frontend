@@ -5,6 +5,7 @@ interface AsideProps {
   weatherData: WeatherData | null;
 
   loading: boolean;
+  selectedCity: { name: string; country: string } | null;
 }
 
 function Aside({ weatherData, loading }: AsideProps) {

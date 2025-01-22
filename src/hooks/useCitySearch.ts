@@ -1,19 +1,11 @@
-import { useEffect, useState } from 'react';
-
 import type { SearchResponse } from '@/types';
-import { useDebounce } from './useDebounce';
+import { useState } from 'react';
 
 export function useCitySearch() {
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [results, setResults] = useState<SearchResponse | null>(null);
-  
-  const debouncedSearch = useDebounce(searchQuery);
-
-  useEffect(() => {
-    searchCities(debouncedSearch);
-  }, [debouncedSearch]);
 
   const searchCities = async (query: string) => {
     if (!query.trim()) {

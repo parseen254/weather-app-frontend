@@ -1,36 +1,64 @@
 'use client';
 
-import Aside from "@/components/Aside";
-import Main from "@/components/Main";
+import { getStoredCity, storeCity } from '@/utils/storage';
+
+import { DEFAULT_CITY } from '@/constants';
+import SearchForm from '@/components/SearchForm';
+import WeatherDisplay from '@/components/WeatherDisplay';
 import { useCitySearch } from '@/hooks/useCitySearch';
 import { useEffect } from 'react';
+import { useState } from 'react';
 import { useWeather } from '@/hooks/useWeather';
 
 export default function Home() {
-  const { searchCities, results } = useCitySearch();
-  const { weatherData, loading: weatherLoading, fetchWeather } = useWeather();
+  const { searchCities, loading: searchLoading, results } = useCitySearch();
+  const { weatherData, loading: weatherLoading, error, fetchWeather } = useWeather();
+  const [selectedCity, setSelectedCity] = useState<{ name: string; country: string; lat?: number; lon?: number } | null>(null);
 
   useEffect(() => {
-    // Search for Nairobi when component mounts
-    searchCities('Nairobi');
-  }, [searchCities]);
+    const storedCity = getStoredCity();
+    const cityToUse = storedCity || DEFAULT_CITY;
+    
+    setSelectedCity({
+      name: cityToUse.name,
+      country: cityToUse.country,
+      lat: cityToUse.lat,
+      lon: cityToUse.lon
+    });
+    
+    fetchWeather(cityToUse.lat, cityToUse.lon);
+  }, [fetchWeather]);
 
-  useEffect(() => {
-    // When we get results for Nairobi, fetch its weather
-    if (results?.data[0]?.city) {
-      const { lat, lon } = results.data[0].city;
-      fetchWeather(lat, lon);
-    }
-  }, [fetchWeather, results]);
+  const handleCitySelect = (lat: number, lon: number, name: string, country: string) => {
+    const cityData = { name, country, lat, lon };
+    setSelectedCity(cityData);
+    storeCity(cityData);
+    fetchWeather(lat, lon);
+  };
 
   return (
-    <div className="grid grid-rows-[auto_1fr_auto] md:grid-cols-4 md:grid-rows-none items-center min-h-screen p-4 gap-4 md:p-8 md:gap-8 font-[family-name:var(--font-geist-sans)] bg-blue-500">
-      <div className="w-full h-full md:col-span-1">
-        <Aside weatherData={weatherData} loading={weatherLoading} />
+    <main className="container mx-auto p-4">
+      <div className="max-w-3xl mx-auto space-y-6">
+        <h1 className="text-3xl font-bold text-center">Weather App</h1>
+        
+        <SearchForm
+          onSearch={searchCities}
+          onCitySelect={handleCitySelect}
+          results={results}
+          loading={searchLoading}
+        />
+        
+        {weatherLoading && <div>Loading weather data...</div>}
+        {error && <div className="text-red-500">{error}</div>}
+        
+        {selectedCity && (
+          <h2 className="text-2xl font-semibold">
+            Weather for {selectedCity.name}, {selectedCity.country}
+          </h2>
+        )}
+        
+        {weatherData && <WeatherDisplay data={weatherData} />}
       </div>
-      <div className="w-full h-full md:col-span-3">
-        <Main weatherData={weatherData} loading={weatherLoading} />
-      </div>
-    </div>
+    </main>
   );
 }

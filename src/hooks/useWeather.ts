@@ -17,7 +17,7 @@ export function useWeather() {
       
       if (!response.ok) throw new Error('Failed to fetch weather data');
       
-      const data = await response.json();
+      const data: WeatherData = await response.json();
       setWeatherData(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
