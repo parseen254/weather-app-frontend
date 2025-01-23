@@ -66,6 +66,7 @@ export default function Home() {
           weatherData={weatherData}
           loading={weatherLoading}
           selectedCity={selectedCity}
+          units={units}
         />
       </div>
       <div className="w-full h-full md:col-span-3">

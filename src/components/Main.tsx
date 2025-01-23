@@ -48,15 +48,22 @@ function Main({
 
       {weatherData && !parentLoading && (
         <div className="flex flex-col items-between gap-24 w-full h-full">
-          <ThreeDayForecast weatherData={weatherData} />
-          <OtherDetails weatherData={weatherData} />
+          <ThreeDayForecast weatherData={weatherData} units={units} />
+          <OtherDetails weatherData={weatherData} units={units} />
         </div>
       )}
     </div>
   );
 }
 
-function ThreeDayForecast({ weatherData }: { weatherData: WeatherData }) {
+function ThreeDayForecast({
+  weatherData,
+  units,
+}: {
+  weatherData: WeatherData;
+  units: UnitSystem;
+}) {
+  const tempUnit = units === "metric" ? "°C" : "°F";
   return (
     <div className="mt-16">
       <div className="grid grid-cols-3 gap-4">
@@ -77,17 +84,16 @@ function ThreeDayForecast({ weatherData }: { weatherData: WeatherData }) {
               })()}
             </p>
             <Image
-              src={`https://openweathermap.org/img/wn/${weatherData?.current.weather[0].icon}@4x.png`}
-              alt={
-                weatherData?.current.weather[0].description || "Weather Icon"
-              }
+              src={`https://openweathermap.org/img/wn/${day.weather[0].icon}@4x.png`}
+              alt={day.weather[0].description || "Weather Icon"}
               width={200}
               height={200}
               priority={false}
               placeholder="empty"
             />
             <p>
-              {Math.round(day.temp.max)}°C - {Math.round(day.temp.min)}°C
+              {Math.round(day.temp.max)} {tempUnit} - {Math.round(day.temp.min)}
+              {tempUnit}
             </p>
             <p className="capitalize">{day.weather[0].description}</p>
           </div>
@@ -97,13 +103,20 @@ function ThreeDayForecast({ weatherData }: { weatherData: WeatherData }) {
   );
 }
 
-function OtherDetails({ weatherData }: { weatherData: WeatherData }) {
+function OtherDetails({
+  weatherData,
+  units,
+}: {
+  weatherData: WeatherData;
+  units: UnitSystem;
+}) {
+  const speedUnit = units === "metric" ? "KM/H" : "MPH";
   return (
     <div className="mt-4 flex h-ful gap-4 w-full justify-between">
       <div className="p-2 py-8 border rounded gap-16 flex flex-col items-center flex-1">
         <p className="font-medium">Wind Status</p>
         <h1 className="text-4xl font-semibold">
-          {weatherData.current.wind_speed} KM/H
+          {weatherData.current.wind_speed} {speedUnit}
         </h1>
         <svg
           xmlns="http://www.w3.org/2000/svg"

@@ -17,7 +17,9 @@ export function useCitySearch() {
       setLoading(true);
       setError(null);
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/cities/search?query=${encodeURIComponent(query)}`
+        `${
+          process.env.NEXT_PUBLIC_BACKEND_API_URL
+        }/api/cities/search?query=${encodeURIComponent(query)}&per_page=5`
       );
       
       if (!response.ok) throw new Error('Failed to fetch cities');
