@@ -4,19 +4,29 @@ import type { SearchResponse } from "@/types";
 
 interface SearchFormProps {
   onSearch: (query: string) => void;
-  onCitySelect: (lat: number, lon: number, cityName: string, countryCode: string) => void;
+  onCitySelect: (
+    lat: number,
+    lon: number,
+    cityName: string,
+    countryCode: string
+  ) => void;
   results: SearchResponse | null;
   loading: boolean;
 }
 
-export default function SearchForm({ onSearch, onCitySelect, results, loading }: SearchFormProps) {
+export default function SearchForm({
+  onSearch,
+  onCitySelect,
+  results,
+  loading,
+}: SearchFormProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchTerm(value);
-    
+
     if (value.length >= 3) {
       onSearch(value);
       setShowDropdown(true);
@@ -25,7 +35,12 @@ export default function SearchForm({ onSearch, onCitySelect, results, loading }:
     }
   };
 
-  const handleCitySelect = (lat: number, lon: number, cityName: string, countryCode: string) => {
+  const handleCitySelect = (
+    lat: number,
+    lon: number,
+    cityName: string,
+    countryCode: string
+  ) => {
     onCitySelect(lat, lon, cityName, countryCode);
     setShowDropdown(false);
     setSearchTerm("");

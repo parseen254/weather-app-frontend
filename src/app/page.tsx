@@ -1,9 +1,9 @@
 'use client';
 
-import { getStoredCity, storeCity } from '@/utils/storage';
+import { DEFAULT_CITY, UnitSystem } from "@/constants";
+import { getStoredCity, storeCity } from "@/utils/storage";
 
 import Aside from "@/components/Aside";
-import { DEFAULT_CITY } from "@/constants";
 import Main from "@/components/Main";
 import { useCitySearch } from "@/hooks/useCitySearch";
 import { useEffect } from "react";
@@ -12,7 +12,13 @@ import { useWeather } from "@/hooks/useWeather";
 
 export default function Home() {
   const { searchCities, loading: searchLoading, results } = useCitySearch();
-  const { weatherData, loading: weatherLoading, fetchWeather } = useWeather();
+  const {
+    weatherData,
+    loading: weatherLoading,
+    fetchWeather,
+    units,
+    setUnits,
+  } = useWeather();
   const [selectedCity, setSelectedCity] = useState<{
     name: string;
     country: string;
@@ -46,6 +52,13 @@ export default function Home() {
     fetchWeather(lat, lon);
   };
 
+  const handleUnitsChange = (newUnits: UnitSystem) => {
+    setUnits(newUnits);
+    if (selectedCity?.lat && selectedCity?.lon) {
+      fetchWeather(selectedCity.lat, selectedCity.lon);
+    }
+  };
+
   return (
     <div className="grid grid-rows-[auto_1fr_auto] md:grid-cols-4 md:grid-rows-none items-center min-h-screen p-0 gap-4 md:p-2 md:gap-8 font-[family-name:var(--font-geist-sans)]">
       <div className="w-full h-full md:col-span-1">
@@ -64,6 +77,8 @@ export default function Home() {
           loading={searchLoading}
           searchLoading={searchLoading}
           selectedCity={selectedCity}
+          units={units}
+          onUnitsChange={handleUnitsChange}
         />
       </div>
     </div>

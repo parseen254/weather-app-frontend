@@ -3,7 +3,9 @@ import type { SearchResponse, WeatherData } from "@/types";
 import Image from "next/image";
 import React from "react";
 import SearchForm from "@/components/SearchForm";
-import { getLocaleDate } from "@/lib/utils";
+import { UnitSystem } from "@/constants";
+import UnitToggle from "@/components/UnitToggle";
+import { getLocaleDate } from "@/utils";
 
 interface MainProps {
   weatherData: WeatherData | null;
@@ -18,6 +20,8 @@ interface MainProps {
   onSearch: (query: string) => void;
   results: SearchResponse | null;
   searchLoading: boolean;
+  units: UnitSystem;
+  onUnitsChange: (units: UnitSystem) => void;
 }
 
 function Main({
@@ -27,15 +31,21 @@ function Main({
   onSearch,
   searchLoading,
   results,
+  units,
+  onUnitsChange,
 }: MainProps) {
   return (
     <div className="h-full p-6 px-12">
-      <SearchForm
-        onSearch={onSearch}
-        onCitySelect={onCitySelect}
-        results={results}
-        loading={searchLoading}
-      />
+      <div className="flex items-center justify-between gap-4">
+        <SearchForm
+          onSearch={onSearch}
+          onCitySelect={onCitySelect}
+          results={results}
+          loading={searchLoading}
+        />
+        <UnitToggle value={units} onChange={onUnitsChange} />
+      </div>
+
       {weatherData && !parentLoading && (
         <div className="flex flex-col items-between gap-24 w-full h-full">
           <ThreeDayForecast weatherData={weatherData} />

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import type { WeatherData } from "@/types";
-import { getLocaleDate } from "@/lib/utils";
+import { getLocaleDate } from "@/utils";
 
 interface AsideProps {
   weatherData: WeatherData | null;
@@ -22,7 +22,7 @@ function Aside({ weatherData, selectedCity }: AsideProps) {
         />
         <div className="p-4 flex items-center flex-col gap-4">
           <h2 className="text-xl font-semibold">
-            {Math.round(weatherData?.current.temp - 273.15)}°C
+            {weatherData?.current.temp} °C
           </h2>
           <h3 className="text-xl font-semibold">
             {weatherData?.current.weather[0].main}
