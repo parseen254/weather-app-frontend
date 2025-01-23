@@ -35,7 +35,7 @@ function Main({
   onUnitsChange,
 }: MainProps) {
   return (
-    <div className="h-full p-6 px-12">
+    <div className="h-full p-6 md:px-12">
       <div className="flex items-center justify-between gap-4">
         <SearchForm
           onSearch={onSearch}
@@ -66,7 +66,7 @@ function ThreeDayForecast({
   const tempUnit = units === "metric" ? "°C" : "°F";
   return (
     <div className="mt-16">
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid md:grid-rows-none grid-rows-3  md:grid-cols-3 gap-4">
         {weatherData.daily.slice(1, 4).map((day) => (
           <div
             key={day.dt}
@@ -112,7 +112,7 @@ function OtherDetails({
 }) {
   const speedUnit = units === "metric" ? "KM/H" : "MPH";
   return (
-    <div className="mt-4 flex h-ful gap-4 w-full justify-between">
+    <div className="mt-4 flex flex-col md:flex-row h-ful gap-4 w-full justify-between">
       <div className="p-2 py-8 border rounded gap-16 flex flex-col items-center flex-1">
         <p className="font-medium">Wind Status</p>
         <h1 className="text-4xl font-semibold">
